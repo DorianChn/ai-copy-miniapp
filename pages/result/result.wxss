@@ -1,0 +1,24 @@
+.result-card {
+  background: #fff; border-radius: 20rpx; padding: 40rpx;
+  box-shadow: 0 4rpx 20rpx rgba(0,0,0,0.08); margin-bottom: 40rpx;
+}
+.result-header { margin-bottom: 30rpx; }
+.result-type {
+  background: #4A90D9; color: #fff; padding: 6rpx 20rpx;
+  border-radius: 8rpx; font-size: 22rpx; margin-right: 16rpx;
+}
+.result-topic { font-size: 28rpx; color: #666; }
+.result-content {
+  font-size: 30rpx; line-height: 1.8; color: #333;
+  white-space: pre-wrap; word-break: break-all;
+}
+.action-bar { display: flex; gap: 20rpx; margin-bottom: 30rpx; }
+.btn-action {
+  flex: 1; height: 80rpx; line-height: 80rpx; font-size: 28rpx;
+  border-radius: 40rpx; font-weight: 500;
+}
+.btn-copy { background: #4A90D9; color: #fff; }
+.btn-share { background: #fff; color: #4A90D9; border: 2rpx solid #4A90D9; }
+.btn-back {
+  text-align: center; color: #4A90D9; font-size: 28rpx; padding: 20rpx;
+}

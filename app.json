@@ -1,0 +1,22 @@
+{
+  "pages": [
+    "pages/index/index",
+    "pages/result/result",
+    "pages/history/history"
+  ],
+  "window": {
+    "backgroundTextStyle": "light",
+    "navigationBarBackgroundColor": "#4A90D9",
+    "navigationBarTitleText": "AI文案助手",
+    "navigationBarTextStyle": "white",
+    "backgroundColor": "#F5F7FA"
+  },
+  "tabBar": {
+    "color": "#999",
+    "selectedColor": "#4A90D9",
+    "list": [
+      { "pagePath": "pages/index/index", "text": "生成", "iconPath": "images/create.png", "selectedIconPath": "images/create-active.png" },
+      { "pagePath": "pages/history/history", "text": "历史", "iconPath": "images/history.png", "selectedIconPath": "images/history-active.png" }
+    ]
+  }
+}

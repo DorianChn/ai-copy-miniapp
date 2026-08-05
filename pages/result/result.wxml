@@ -1,0 +1,18 @@
+<view class="container">
+  <view class="result-card">
+    <view class="result-header">
+      <text class="result-type">{{record.typeName}}</text>
+      <text class="result-topic">{{record.topic}}</text>
+    </view>
+    <view class="result-content">
+      <text selectable="true">{{record.content}}</text>
+    </view>
+  </view>
+
+  <view class="action-bar">
+    <button class="btn-action btn-copy" bindtap="copyText">📋 复制文案</button>
+    <button class="btn-action btn-share" open-type="share">📤 分享</button>
+  </view>
+
+  <view class="btn-back" bindtap="goBack">✏️ 再来一篇</view>
+</view>

@@ -1,0 +1,43 @@
+<view class="container">
+  <!-- 选择类型 -->
+  <view class="section">
+    <view class="section-title">📝 选择文案类型</view>
+    <view class="type-grid">
+      <view class="type-card {{currentType === item.key ? 'active' : ''}}"
+            wx:for="{{types}}" wx:key="key"
+            bindtap="selectType" data-key="{{item.key}}">
+        <text class="type-emoji">{{item.emoji}}</text>
+        <text class="type-name">{{item.name}}</text>
+      </view>
+    </view>
+  </view>
+
+  <!-- 输入主题 -->
+  <view class="section">
+    <view class="section-title">💡 文案主题</view>
+    <input class="input" placeholder="例：周末去海边玩" value="{{topic}}" bindinput="onTopic" />
+  </view>
+
+  <!-- 关键词 -->
+  <view class="section">
+    <view class="section-title">🔑 关键词（可选）</view>
+    <input class="input" placeholder="例：阳光、沙滩、椰子" value="{{keywords}}" bindinput="onKeywords" />
+  </view>
+
+  <!-- 风格 -->
+  <view class="section">
+    <view class="section-title">🎨 风格</view>
+    <view class="style-grid">
+      <view class="style-tag {{currentStyle === item ? 'active' : ''}}"
+            wx:for="{{styles}}" wx:key="*this"
+            bindtap="selectStyle" data-style="{{item}}">
+        {{item}}
+      </view>
+    </view>
+  </view>
+
+  <!-- 生成按钮 -->
+  <button class="btn-generate" bindtap="generate" disabled="{{loading}}">
+    {{loading ? '⏳ 生成中...' : '✨ 一键生成文案'}}
+  </button>
+</view>

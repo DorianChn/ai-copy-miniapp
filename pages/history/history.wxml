@@ -1,0 +1,18 @@
+<view class="container">
+  <view class="empty" wx:if="{{!list.length}}">
+    <text class="empty-icon">📝</text>
+    <text class="empty-text">还没有生成过文案</text>
+    <navigator url="/pages/index/index" open-type="switchTab" class="empty-btn">去生成</navigator>
+  </view>
+
+  <view class="history-item" wx:for="{{list}}" wx:key="id" bindtap="viewItem" data-id="{{item.id}}">
+    <view class="item-header">
+      <text class="item-type">{{item.typeName}}</text>
+      <text class="item-time">{{item.time}}</text>
+    </view>
+    <text class="item-topic">{{item.topic}}</text>
+    <text class="item-preview">{{item.content}}</text>
+  </view>
+
+  <view class="clear-btn" wx:if="{{list.length}}" bindtap="clearAll">🗑️ 清空历史</view>
+</view>
