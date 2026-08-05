@@ -1,4 +1,4 @@
-const API_KEY = 'sk-lohwmzvwousmullttlacvqatgthlrvtspkoyeufxzodcyfvn'
+const API_KEY = 'YOUR_API_KEY'
 const API_URL = 'https://api.siliconflow.cn/v1/chat/completions'
 const MODEL = 'Qwen/Qwen2.5-7B-Instruct'
 
