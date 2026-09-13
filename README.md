@@ -47,6 +47,8 @@
 
 ## 🚀 快速开始
 
+> **安全提示**：本项目把请求直接从小程序发送到模型 API，适合个人本地预览。不要把真实 API Key 提交到 Git 或发布到面向公众的小程序；生产使用应通过自己的后端代理、短期凭证或服务端密钥管理来转发请求。
+
 ### 前置条件
 
 - [微信开发者工具](https://developers.weixin.qq.com/miniprogram/dev/devtools/download.html)
