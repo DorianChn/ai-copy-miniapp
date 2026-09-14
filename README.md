@@ -68,15 +68,19 @@ cd ai-copy-miniapp
 3. 填入你的小程序 **AppID**
 4. 后端服务选择 **不使用云服务**
 
-### 3️⃣ 配置 API
+### 3️⃣ 配置 API（仅本地调试）
 
 1. 注册 [SiliconFlow](https://siliconflow.cn)（免费）
 2. 获取 API Key
-3. 编辑 `utils/api.js`，替换第一行的 `API_KEY`：
+3. 仅在本地调试时编辑 `utils/api.js` 中的占位符：
 
 ```javascript
 const API_KEY = 'sk-你的key'
 ```
+
+⚠️ 小程序端的请求头会被用户看到，API Key 不能视为秘密。不要把真实密钥提交到 Git、发布到公开小程序或用于生产；生产请使用云函数，并在云函数环境变量中配置 `SILICONFLOW_API_KEY`。示例见 [`cloudfunctions/generateCopy/.env.example`](cloudfunctions/generateCopy/.env.example)。
+
+如果历史上曾把密钥提交到仓库，请先在 SiliconFlow 控制台撤销并重新生成，再部署云函数；只删除当前文件不能清除 Git 历史中的旧密钥。
 
 ### 4️⃣ 配置请求域名
 

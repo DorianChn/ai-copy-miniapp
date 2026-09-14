@@ -3,7 +3,8 @@ cloud.init({ env: cloud.DYNAMIC_CURRENT_ENV })
 const axios = require('axios')
 
 // ===== 配置 =====
-const API_KEY = 'sk-lohwmzvwousmullttlacvqatgthlrvtspkoyeufxzodcyfvn'  // 替换为你的key
+// Configure this only in the cloud-function environment. Never commit a key.
+const API_KEY = process.env.SILICONFLOW_API_KEY?.trim()
 const API_URL = 'https://api.siliconflow.cn/v1/chat/completions'
 const MODEL = 'Qwen/Qwen2.5-7B-Instruct'  // 免费模型
 
@@ -72,6 +73,7 @@ exports.main = async (event) => {
   const prompt = promptFn(topic.trim(), keywords?.trim(), style || '轻松幽默')
 
   try {
+    if (!API_KEY) throw new Error('SILICONFLOW_API_KEY is not configured')
     const res = await axios.post(API_URL, {
       model: MODEL,
       messages: [

@@ -1,0 +1,30 @@
+name: Validate
+
+on:
+  push:
+  pull_request:
+
+permissions:
+  contents: read
+
+jobs:
+  syntax-and-secrets:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+      - name: Validate project JSON and JavaScript
+        shell: bash
+        run: |
+          node -e "for (const f of ['app.json','project.config.json','project.private.config.json','cloudfunctions/generateCopy/package.json']) JSON.parse(require('fs').readFileSync(f,'utf8'))"
+          node --check utils/api.js
+          node --check cloudfunctions/generateCopy/index.js
+      - name: Reject committed provider keys
+        shell: bash
+        run: |
+          if grep -RInE --exclude-dir=.git --exclude='*.md' "sk-[A-Za-z0-9]{20,}" .; then
+            echo 'A provider-looking key is present in tracked source.' >&2
+            exit 1
+          fi

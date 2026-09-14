@@ -18,3 +18,11 @@ miniprogram_npm/
 
 # Logs
 *.log
+
+# Local credentials (never commit provider keys)
+.env
+.env.*
+!.env.example
+cloudfunctions/**/.env
+cloudfunctions/**/.env.*
+!cloudfunctions/**/.env.example
