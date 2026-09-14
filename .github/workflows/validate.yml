@@ -21,6 +21,7 @@ jobs:
           node -e "for (const f of ['app.json','project.config.json','project.private.config.json','cloudfunctions/generateCopy/package.json']) JSON.parse(require('fs').readFileSync(f,'utf8'))"
           node --check utils/api.js
           node --check cloudfunctions/generateCopy/index.js
+          node --test tests/*.test.mjs
       - name: Reject committed provider keys
         shell: bash
         run: |

@@ -66,21 +66,20 @@ cd ai-copy-miniapp
 1. 打开微信开发者工具
 2. **导入项目** → 选择 `ai-copy-miniapp` 文件夹
 3. 填入你的小程序 **AppID**
-4. 后端服务选择 **不使用云服务**
+4. 后端服务选择 **使用云服务**，并创建云开发环境
 
-### 3️⃣ 配置 API（仅本地调试）
+### 3️⃣ 部署云函数并配置 API
 
 1. 注册 [SiliconFlow](https://siliconflow.cn)（免费）
 2. 获取 API Key
-3. 仅在本地调试时编辑 `utils/api.js` 中的占位符：
+3. 在微信开发者工具中右键 `cloudfunctions/generateCopy`，选择上传并部署：云端安装依赖
+4. 在云函数环境变量中配置 `SILICONFLOW_API_KEY`
 
-```javascript
-const API_KEY = 'sk-你的key'
-```
-
-⚠️ 小程序端的请求头会被用户看到，API Key 不能视为秘密。不要把真实密钥提交到 Git、发布到公开小程序或用于生产；生产请使用云函数，并在云函数环境变量中配置 `SILICONFLOW_API_KEY`。示例见 [`cloudfunctions/generateCopy/.env.example`](cloudfunctions/generateCopy/.env.example)。
+⚠️ 小程序端的请求头会被用户看到，API Key 不能视为秘密。默认请求会通过云函数转发，密钥只放在云函数环境变量中；示例见 [`cloudfunctions/generateCopy/.env.example`](cloudfunctions/generateCopy/.env.example)。
 
 如果历史上曾把密钥提交到仓库，请先在 SiliconFlow 控制台撤销并重新生成，再部署云函数；只删除当前文件不能清除 Git 历史中的旧密钥。
+
+仅做本地调试且没有云开发环境时，才在 `utils/api.js` 中关闭 `USE_CLOUD_FUNCTION` 并配置临时 API Key；不要将真实密钥提交到 Git 或发布到公开小程序。
 
 ### 4️⃣ 配置请求域名
 
@@ -153,6 +152,16 @@ const MODEL = 'Qwen/Qwen2.5-7B-Instruct'  // 免费模型
 ### 添加新平台
 
 在 `utils/api.js` 的 `TYPES` 和 `PROMPTS` 中添加新条目即可。
+
+## ✅ 本地验证
+
+在 Node.js 20+ 环境运行：
+
+```bash
+node --test tests/*.test.mjs
+```
+
+该测试会确认前端优先调用 `generateCopy` 云函数，并正确处理云函数返回的错误。
 
 ---
 
