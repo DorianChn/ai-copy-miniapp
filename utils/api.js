@@ -1,6 +1,7 @@
 const API_KEY = 'YOUR_API_KEY'
 const API_URL = 'https://api.siliconflow.cn/v1/chat/completions'
 const MODEL = 'Qwen/Qwen2.5-7B-Instruct'
+const USE_CLOUD_FUNCTION = true
 
 const TYPES = {
   friend: { name: '朋友圈', emoji: '📱', desc: '轻松有趣的朋友圈文案' },
@@ -94,6 +95,28 @@ ${keywords ? '关键词：' + keywords : ''}
 }
 
 function generateCopy(type, topic, keywords, style) {
+  if (USE_CLOUD_FUNCTION && wx.cloud && typeof wx.cloud.callFunction === 'function') {
+    return new Promise((resolve, reject) => {
+      wx.cloud.callFunction({
+        name: 'generateCopy',
+        data: { type, topic, keywords, style },
+        success: res => {
+          const result = res?.result || {}
+          if (result.success && result.content) {
+            resolve(result.content)
+          } else {
+            reject(new Error(result.error || '云函数返回异常'))
+          }
+        },
+        fail: reject
+      })
+    })
+  }
+
+  if (!API_KEY || API_KEY === 'YOUR_API_KEY') {
+    return Promise.reject(new Error('请配置云函数，或仅在本地调试时配置 API Key'))
+  }
+
   return new Promise((resolve, reject) => {
     const promptFn = PROMPTS[type] || PROMPTS.friend
     wx.request({

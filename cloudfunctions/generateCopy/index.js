@@ -62,15 +62,21 @@ const PROMPTS = {
 }
 
 exports.main = async (event) => {
-  const { type, topic, keywords, style } = event
+  const input = event && typeof event === 'object' ? event : {}
+  const type = typeof input.type === 'string' ? input.type : 'friend'
+  const topic = typeof input.topic === 'string' ? input.topic.trim() : ''
+  const keywords = typeof input.keywords === 'string' ? input.keywords.trim() : ''
+  const style = typeof input.style === 'string' && input.style.trim()
+    ? input.style.trim()
+    : '轻松幽默'
 
   // 参数校验
-  if (!topic || !topic.trim()) {
-    return { error: '请输入主题', content: '' }
+  if (!topic) {
+    return { success: false, error: '请输入主题', content: '' }
   }
 
   const promptFn = PROMPTS[type] || PROMPTS.friend
-  const prompt = promptFn(topic.trim(), keywords?.trim(), style || '轻松幽默')
+  const prompt = promptFn(topic, keywords, style)
 
   try {
     if (!API_KEY) throw new Error('SILICONFLOW_API_KEY is not configured')
