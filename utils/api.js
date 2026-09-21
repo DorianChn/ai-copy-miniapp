@@ -16,6 +16,23 @@ const SYSTEM_PROMPT = `你是一个顶尖的社交媒体文案创作者，曾为
 - 排版干净舒服，emoji使用克制精准
 - 每篇文案都有一个让人忍不住读下去的开头`
 
+const MAX_HISTORY = 100
+
+function isHistoryRecord(record) {
+  return Boolean(
+    record &&
+    typeof record === 'object' &&
+    !Array.isArray(record) &&
+    (typeof record.id === 'number' || typeof record.id === 'string') &&
+    typeof record.content === 'string'
+  )
+}
+
+function normalizeHistory(value) {
+  if (!Array.isArray(value)) return []
+  return value.filter(isHistoryRecord).slice(0, MAX_HISTORY)
+}
+
 const PROMPTS = {
   friend: (topic, keywords, style) =>
     `请为以下主题写一条朋友圈文案：
@@ -127,21 +144,24 @@ function generateCopy(type, topic, keywords, style) {
 }
 
 function saveHistory(record) {
-  const history = wx.getStorageSync('copy_history') || []
-  record.id = Date.now()
-  record.time = new Date().toLocaleString('zh-CN')
-  history.unshift(record)
-  if (history.length > 100) history.pop()
+  const history = normalizeHistory(wx.getStorageSync('copy_history'))
+  const savedRecord = {
+    ...(record && typeof record === 'object' && !Array.isArray(record) ? record : {}),
+    id: Date.now(),
+    time: new Date().toLocaleString('zh-CN')
+  }
+  history.unshift(savedRecord)
+  if (history.length > MAX_HISTORY) history.pop()
   wx.setStorageSync('copy_history', history)
-  return record
+  return savedRecord
 }
 
 function getHistory() {
-  return wx.getStorageSync('copy_history') || []
+  return normalizeHistory(wx.getStorageSync('copy_history'))
 }
 
 function clearHistory() {
   wx.removeStorageSync('copy_history')
 }
 
-module.exports = { TYPES, generateCopy, saveHistory, getHistory, clearHistory }
+module.exports = { TYPES, generateCopy, saveHistory, getHistory, clearHistory, normalizeHistory }
